@@ -1,0 +1,23 @@
+import joblib
+import pandas as pd
+import numpy as np
+lo=joblib.load('gender.joblib')
+le=joblib.load('smoker.joblib')
+ct=joblib.load('onehot.joblib')
+sc=joblib.load('scaler.joblib')
+regressor=joblib.load('regressor.joblib')
+age=int(input('Enter Age'))
+bmi=float(input('Enter bmi'))
+gen=input('Enter Gender')
+
+child=int(input('Enter child'))
+smoker=input('Enter wether smoke or not?')
+region=input('Enter region')
+
+data=pd.DataFrame({'age':[age],'gender':[gen],'bmi':[bmi],'children':[child],'smoker':[smoker],'region':[region]})
+data['gender']=lo.transform(data['gender'])
+data['smoker']=le.transform(data['smoker'])
+data=ct.transform(data)
+data=sc.transform(data)
+
+print(regressor.predict(data))
